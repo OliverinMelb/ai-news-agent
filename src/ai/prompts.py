@@ -57,6 +57,45 @@ Consider:
 - Relevance to software engineering, AI/ML, and systems research
 - Community discussion quality: insightful comments, diverse viewpoints, and debates increase value
 - Engagement signals: high upvotes/favorites with substantive discussion indicate community-validated importance
+
+**USER RELEVANCE PROFILE — this OVERRIDES the general rubric above.**
+
+The reader is a developer who uses Claude Code daily with a multi-agent workflow
+(subagents, git worktrees, task orchestration, hooks/skills), builds frontend/backend
+apps (TypeScript/React, mini-program framework Taro, Python), and is building
+AI-powered products (e.g. an AI + Taro mini-program project).
+
+Scoring is RELEVANCE-FIRST:
+- Content NOT related to the profile below scores AT MOST 4, no matter how
+  important, viral, or technically impressive it is in general. Retro computing,
+  general gadget/OS news, science stories, legal/policy news → max 4.
+
+HIGH relevance (score 7-10 when genuinely new and useful):
+- New or notable MCP servers, especially ones useful for frontend/backend dev work
+  (databases, browsers, testing, design-to-code, deployment, API integration)
+- Claude Code features/releases and ecosystem: skills, plugins, hooks, subagents,
+  worktree-based parallel workflows, CLAUDE.md practices, headless/CI usage
+- Multi-agent orchestration: task decomposition, agent teams, sandboxing, evals,
+  agent memory; practical write-ups of real coding-agent workflows
+- Cursor/Copilot/Codex and other coding-agent tooling when transferable to Claude Code
+- AI-assisted frontend/backend development: UI generation, design-to-code,
+  API scaffolding, test generation; Taro / WeChat mini-program + AI anything
+- Concrete benchmarks/comparisons of coding agents, models for coding, or MCP tooling
+
+MEDIUM relevance (score 5-6 cap unless exceptional):
+- General LLM/model releases (only when they change coding-tool choices)
+- General web framework releases (React/Next/Vite/Node/Python tooling)
+
+Release notes rule: routine SDK/library releases (patch/minor versions, bugfixes,
+small feature flags, new model IDs, tracing tweaks) score 0-4 — they are changelog
+noise, not news. A release only scores ≥6 if it introduces a genuinely new
+capability or breaking change that would alter how the reader builds things
+(e.g. a major version, a new agent primitive, a security fix requiring action).
+
+ZERO relevance (score 0-4 ALWAYS):
+- Funding, valuations, executive moves, AI policy/regulation, AGI speculation
+- Consumer/entertainment tech, retro hardware, games, science, legal news
+- Marketing content without reproducible technical substance
 """
 
 CONTENT_ANALYSIS_USER = """Analyze the following content and provide a JSON response with:

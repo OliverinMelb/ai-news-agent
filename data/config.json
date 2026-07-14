@@ -1,0 +1,166 @@
+{
+  "version": "1.0",
+  "ai": {
+    "provider": "openai",
+    "model": "${HORIZON_AI_MODEL}",
+    "api_key_env": "HORIZON_AI_API_KEY",
+    "base_url": "${HORIZON_AI_BASE_URL}",
+    "temperature": 0.3,
+    "max_tokens": 4096,
+    "throttle_sec": 0,
+    "analysis_concurrency": 4,
+    "enrichment_concurrency": 2,
+    "languages": ["zh"]
+  },
+  "email": {
+    "enabled": false,
+    "smtp_server": "smtp.qq.com",
+    "smtp_port": 465,
+    "imap_server": "imap.qq.com",
+    "imap_port": 993,
+    "email_address": "placeholder@example.com",
+    "sender_name": "Horizon Daily",
+    "subscribe_keyword": "SUBSCRIBE",
+    "unsubscribe_keyword": "UNSUBSCRIBE"
+  },
+  "sources": {
+    "github": [
+      {
+        "type": "repo_releases",
+        "owner": "anthropics",
+        "repo": "claude-code",
+        "enabled": true,
+        "category": "release"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "modelcontextprotocol",
+        "repo": "servers",
+        "enabled": true,
+        "category": "release"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "vercel",
+        "repo": "ai",
+        "enabled": false,
+        "category": "release"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "NervJS",
+        "repo": "taro",
+        "enabled": true,
+        "category": "release"
+      }
+    ],
+    "hackernews": {
+      "enabled": true,
+      "fetch_top_stories": 20,
+      "min_score": 100,
+      "category": "discussion"
+    },
+    "rss": [
+      {
+        "name": "HN 关键词: MCP",
+        "url": "https://hnrss.org/newest?q=MCP&points=10",
+        "enabled": true,
+        "category": "hn-keyword"
+      },
+      {
+        "name": "HN 关键词: Claude Code",
+        "url": "https://hnrss.org/newest?q=%22claude+code%22&points=5",
+        "enabled": true,
+        "category": "hn-keyword"
+      },
+      {
+        "name": "HN 关键词: coding agent",
+        "url": "https://hnrss.org/newest?q=%22coding+agent%22&points=10",
+        "enabled": true,
+        "category": "hn-keyword"
+      },
+      {
+        "name": "Simon Willison",
+        "url": "https://simonwillison.net/atom/everything/",
+        "enabled": true,
+        "category": "blog"
+      },
+      {
+        "name": "Fireship (YouTube)",
+        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCsBjURrPoezykLs9EqgamOA",
+        "enabled": true,
+        "category": "video"
+      },
+      {
+        "name": "Matthew Berman (YouTube)",
+        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCawZsQWqfGSbCI5yjkdVkTA",
+        "enabled": true,
+        "category": "video"
+      }
+    ],
+    "reddit": {
+      "enabled": true,
+      "subreddits": [
+        {
+          "subreddit": "ClaudeAI",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 15,
+          "min_score": 100
+        },
+        {
+          "subreddit": "mcp",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 20
+        },
+        {
+          "subreddit": "ChatGPTCoding",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 50
+        }
+      ],
+      "users": [],
+      "fetch_comments": 5
+    },
+    "ossinsight": {
+      "enabled": true,
+      "period": "past_24_hours",
+      "languages": ["All", "Python", "TypeScript"],
+      "keywords": ["mcp", "agent", "claude", "cursor", "copilot", "taro"],
+      "min_stars": 30,
+      "max_items": 20,
+      "category": "oss-trending"
+    }
+  },
+  "filtering": {
+    "ai_score_threshold": 6.0,
+    "time_window_hours": 24,
+    "max_items": 20,
+    "category_groups": {
+      "video": {
+        "limit": 3,
+        "categories": ["video"]
+      },
+      "trending": {
+        "limit": 6,
+        "categories": ["oss-trending"]
+      },
+      "release": {
+        "limit": 4,
+        "categories": ["release"]
+      }
+    },
+    "default_group": "other",
+    "default_group_limit": null
+  },
+  "webhook": {
+    "enabled": false
+  }
+}

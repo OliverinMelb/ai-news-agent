@@ -60,15 +60,28 @@ Consider:
 
 **USER RELEVANCE PROFILE — this OVERRIDES the general rubric above.**
 
-The reader is a developer who uses Claude Code daily with a multi-agent workflow
-(subagents, git worktrees, task orchestration, hooks/skills), builds frontend/backend
-apps (TypeScript/React, mini-program framework Taro, Python), and is building
-AI-powered products (e.g. an AI + Taro mini-program project).
+The reader is a full-stack developer (TypeScript/React, mini-program framework Taro,
+Python) who uses Claude Code daily with a multi-agent workflow (subagents, git
+worktrees, task orchestration, hooks/skills). Two motivations drive their reading:
 
-Scoring is RELEVANCE-FIRST:
-- Content NOT related to the profile below scores AT MOST 4, no matter how
-  important, viral, or technically impressive it is in general. Retro computing,
-  general gadget/OS news, science stories, legal/policy news → max 4.
+1. Staying current as an AI-native developer — they do not want to fall behind on
+   the latest AI development techniques and tricks (MCP, Claude Code skills/plugins,
+   agent orchestration, prompt/context engineering for coding agents).
+2. Side-project ideas they are actively exploring — AI astrology / fortune-telling
+   apps, AI interview-prep / interview-coaching tools, and Bitcoin/crypto.
+
+THE SCORING QUESTION: "Would this reader actually click and read this item?"
+Score high only if the answer is clearly yes — because it teaches a technique they
+can use this week, changes a tool they rely on, or is directly actionable for one
+of their side projects. Content NOT matching the profile scores AT MOST 4, no
+matter how important, viral, or technically impressive it is in general.
+
+HANDS-ON BEATS NEWS: given equal relevance, an item showing "I used tool X and
+got result Y" (a plugin demo, a workflow write-up with steps, a before/after,
+a Show HN with something to try) outranks industry news ABOUT the same topic.
+The reader would rather learn one trick they can reproduce tonight than read
+three analyses of market trends. Concrete + reproducible + immediate payoff
+→ push toward 8-9; abstract/analytical/observational → cap around 6-7.
 
 HIGH relevance (score 7-10 when genuinely new and useful):
 - New or notable MCP servers, especially ones useful for frontend/backend dev work
@@ -81,10 +94,28 @@ HIGH relevance (score 7-10 when genuinely new and useful):
 - AI-assisted frontend/backend development: UI generation, design-to-code,
   API scaffolding, test generation; Taro / WeChat mini-program + AI anything
 - Concrete benchmarks/comparisons of coding agents, models for coding, or MCP tooling
+- Side-project signals: AI + astrology/horoscope/tarot/fortune-telling products,
+  AI interview prep / mock-interview / interview-coaching tools, indie AI product
+  case studies (how someone built or monetized a small AI product)
+- "I built X with a coding agent" showcases and post-mortems, EVEN when the
+  product's domain is unrelated to the reader — the transferable value is the
+  workflow, tooling, and lessons. Judge these by workflow insight, not by
+  whether the product itself matches the reader's projects.
+- Bitcoin/crypto: major market-moving events, new dev tooling/APIs (exchange APIs,
+  on-chain data, payments), buildable product opportunities
 
 MEDIUM relevance (score 5-6 cap unless exceptional):
 - General LLM/model releases (only when they change coding-tool choices)
 - General web framework releases (React/Next/Vite/Node/Python tooling)
+
+Score calibration:
+- Spread your scores. Reserve 9-10 for items the reader would drop everything to
+  read; on a typical day at most 1-2 items deserve >=9.
+- A keyword match alone ("Claude Code", "MCP", "agent", "Bitcoin") does NOT make
+  an item high-relevance — judge whether it changes how the reader builds things
+  or feeds a side project.
+- Fun demos / novelty applications (games written in SQL, art projects, stunts)
+  cap at 6 even when technically impressive.
 
 Release notes rule: routine SDK/library releases (patch/minor versions, bugfixes,
 small feature flags, new model IDs, tracing tweaks) score 0-4 — they are changelog
@@ -94,6 +125,8 @@ capability or breaking change that would alter how the reader builds things
 
 ZERO relevance (score 0-4 ALWAYS):
 - Funding, valuations, executive moves, AI policy/regulation, AGI speculation
+  (exception: crypto events fitting the Bitcoin/crypto bullet above)
+- Routine crypto price commentary, shill/promotional coin content
 - Consumer/entertainment tech, retro hardware, games, science, legal news
 - Marketing content without reproducible technical substance
 """
@@ -152,6 +185,11 @@ Provide EACH text field in BOTH English and Chinese. Use the following key namin
 
 Field definitions:
 0. **title** (one short phrase, ≤15 words): A clear, accurate headline for the news item.
+   Lead with the concrete outcome or capability, not the actor or category —
+   "用这个 MCP 插件把设计稿一键变成 React 组件" beats "某公司发布设计转代码工具";
+   "Codex 全访问模式会误删 $HOME，沙盒必须开" beats "研究探讨编码代理安全性".
+   Never fabricate specifics that are not in the content, and no clickbait that
+   the body cannot back up.
 
 1. **whats_new** (1-2 complete sentences): What exactly happened, what changed, what breakthrough was made. Be specific — mention names, versions, numbers, dates when available.
 

@@ -64,3 +64,5 @@ todo.txt
 .pytest_cache
 # project custom
 logs/
+
+site/

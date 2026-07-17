@@ -10,16 +10,36 @@ from ..models import ContentItem
 
 _CJK = r"[\u4e00-\u9fff\u3400-\u4dbf]"
 _ASCII = r"[A-Za-z0-9]"
-_MARKDOWN_SPECIAL = re.compile(r"([\\`*_{}\[\]()<>#!|])")
-_MARKDOWN_BLOCK_START = re.compile(r"(?m)^( {0,3})(>|[-+] |\d+[.)] )")
+# "#" is deliberately NOT in the inline set: html.escape emits entities like
+# &#x27; and escaping their "#" corrupts them. Headings only matter at line
+# start, which _MARKDOWN_BLOCK_START covers.
+_MARKDOWN_SPECIAL = re.compile(r"([\\`*_{}\[\]()<>!|])")
+_MARKDOWN_BLOCK_START = re.compile(r"(?m)^( {0,3})(>|#{1,6} |[-+] |\d+[.)] )")
+_CODE_SPAN = re.compile(r"`([^`\n]+)`")
 _URL_SAFE_CHARS = ":/?#[]@!$&'*,;=~%+"
 
 
-def _escape_markdown(value: object) -> str:
-    """Render untrusted text literally while retaining its readable content."""
-    escaped = html.escape(str(value), quote=True)
+def _escape_segment(segment: str) -> str:
+    escaped = html.escape(segment, quote=True)
     escaped = _MARKDOWN_SPECIAL.sub(r"\\\1", escaped)
     return _MARKDOWN_BLOCK_START.sub(r"\1\\\2", escaped)
+
+
+def _escape_markdown(value: object) -> str:
+    """Render untrusted text literally while retaining its readable content.
+
+    Inline code spans (`like_this`) are kept as code spans — their contents are
+    HTML-escaped but not Markdown-escaped, so AI-written code formatting survives.
+    """
+    text = str(value)
+    parts: list[str] = []
+    last = 0
+    for match in _CODE_SPAN.finditer(text):
+        parts.append(_escape_segment(text[last:match.start()]))
+        parts.append("`" + html.escape(match.group(1), quote=True) + "`")
+        last = match.end()
+    parts.append(_escape_segment(text[last:]))
+    return "".join(parts)
 
 
 def _safe_url(value: object) -> Optional[str]:

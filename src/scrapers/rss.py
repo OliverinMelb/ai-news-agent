@@ -17,6 +17,11 @@ from ..models import ContentItem, SourceType, RSSSourceConfig
 
 logger = logging.getLogger(__name__)
 
+# Some feeds (e.g. ruanyifeng.com) reject the default python-httpx UA with 403
+_FEED_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Horizon-Aggregator/1.0"
+}
+
 
 class RSSScraper(BaseScraper):
     """Scraper for RSS/Atom feeds."""
@@ -81,7 +86,9 @@ class RSSScraper(BaseScraper):
             )
 
             # Fetch feed content
-            response = await self.client.get(feed_url, follow_redirects=True)
+            response = await self.client.get(
+                feed_url, headers=_FEED_HEADERS, follow_redirects=True
+            )
             response.raise_for_status()
 
             # Parse feed

@@ -80,6 +80,30 @@
         "category": "hn-keyword"
       },
       {
+        "name": "HN 关键词: Bitcoin",
+        "url": "https://hnrss.org/newest?q=bitcoin&points=150",
+        "enabled": true,
+        "category": "hn-keyword"
+      },
+      {
+        "name": "Show HN",
+        "url": "https://hnrss.org/show?points=50",
+        "enabled": true,
+        "category": "show-hn"
+      },
+      {
+        "name": "少数派",
+        "url": "https://sspai.com/feed",
+        "enabled": true,
+        "category": "zh-tools"
+      },
+      {
+        "name": "阮一峰周刊",
+        "url": "https://www.ruanyifeng.com/blog/atom.xml",
+        "enabled": true,
+        "category": "zh-tools"
+      },
+      {
         "name": "Simon Willison",
         "url": "https://simonwillison.net/atom/everything/",
         "enabled": true,
@@ -124,6 +148,14 @@
           "time_filter": "day",
           "fetch_limit": 10,
           "min_score": 50
+        },
+        {
+          "subreddit": "ClaudeCode",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 15,
+          "min_score": 50
         }
       ],
       "users": [],
@@ -161,6 +193,38 @@
     "default_group_limit": null
   },
   "webhook": {
-    "enabled": false
+    "enabled": true,
+    "url_env": "HORIZON_WEBHOOK_URL",
+    "delivery": "summary_and_items",
+    "overview_position": "last",
+    "platform": "feishu",
+    "layout": "collapsible",
+    "fallback_layout": "markdown",
+    "languages": ["zh"],
+    "request_body": {
+      "msg_type": "interactive",
+      "card": {
+        "schema": "2.0",
+        "config": {
+          "wide_screen_mode": true
+        },
+        "header": {
+          "title": {
+            "tag": "plain_text",
+            "content": "#{message_title}"
+          },
+          "template": "blue"
+        },
+        "body": {
+          "elements": [
+            {
+              "tag": "markdown",
+              "content": "#{summary}"
+            }
+          ]
+        }
+      }
+    },
+    "headers": ""
   }
 }

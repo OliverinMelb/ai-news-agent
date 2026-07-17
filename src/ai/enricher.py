@@ -217,7 +217,9 @@ class ContentEnricher:
                 val = result[f"background_{lang}"]
                 item.metadata[f"background_{lang}"] = val.get("text") or str(val) if isinstance(val, dict) else str(val)
 
-            if result.get(f"community_discussion_{lang}"):
+            # Only trust community_discussion when real comments were provided;
+            # without them the model tends to invent a plausible-sounding discussion.
+            if comments_text and result.get(f"community_discussion_{lang}"):
                 val = result[f"community_discussion_{lang}"]
                 item.metadata[f"community_discussion_{lang}"] = val.get("text") or str(val) if isinstance(val, dict) else str(val)
 

@@ -6,11 +6,30 @@ Set-Location "C:\Users\admin\Desktop\news\horizon"
 # Windows 默认 GBK 控制台会让 rich 输出 emoji 时崩溃
 $env:PYTHONUTF8 = "1"
 $env:PYTHONIOENCODING = "utf-8"
-# hnrss.org 直连可用、走 VPN 代理反而 SSL 失败，加入代理豁免
-# Reddit/YouTube 经远程 VPN 代理 TLS RESET，本地 Clash 可达；国内站直连
-$env:HTTP_PROXY = "http://127.0.0.1:7890"
-$env:HTTPS_PROXY = "http://127.0.0.1:7890"
-$env:NO_PROXY = "hnrss.org,open.feishu.cn,sspai.com,www.ruanyifeng.com,api.gemai.cc," + $env:NO_PROXY
+# 跟随 Windows 当前代理，避免 VPN/Clash 切换端口后定时任务继续使用失效端口
+$proxySettings = Get-ItemProperty `
+    -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" `
+    -ErrorAction SilentlyContinue
+$proxyEndpoint = $null
+if ($proxySettings.ProxyEnable -eq 1 -and $proxySettings.ProxyServer) {
+    if ($proxySettings.ProxyServer -match "(?:^|;)https=([^;]+)") {
+        $proxyEndpoint = $Matches[1]
+    } elseif ($proxySettings.ProxyServer -match "(?:^|;)http=([^;]+)") {
+        $proxyEndpoint = $Matches[1]
+    } elseif ($proxySettings.ProxyServer -notmatch "=") {
+        $proxyEndpoint = $proxySettings.ProxyServer
+    }
+}
+if ($proxyEndpoint) {
+    if ($proxyEndpoint -notmatch "^https?://") {
+        $proxyEndpoint = "http://" + $proxyEndpoint
+    }
+    $env:HTTP_PROXY = $proxyEndpoint
+    $env:HTTPS_PROXY = $proxyEndpoint
+}
+
+# 飞书 Webhook 走国内直连
+$env:NO_PROXY = "open.feishu.cn," + $env:NO_PROXY
 
 $logDir = Join-Path $PSScriptRoot "logs"
 if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir | Out-Null }

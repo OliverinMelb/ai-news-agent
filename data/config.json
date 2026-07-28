@@ -27,87 +27,104 @@
     "github": [
       {
         "type": "repo_releases",
+        "owner": "openai",
+        "repo": "codex",
+        "enabled": true,
+        "category": "coding-agent-release"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "openai",
+        "repo": "openai-agents-python",
+        "enabled": true,
+        "category": "agent-sdk-release"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "openai",
+        "repo": "openai-agents-js",
+        "enabled": true,
+        "category": "agent-sdk-release"
+      },
+      {
+        "type": "repo_releases",
         "owner": "anthropics",
         "repo": "claude-code",
         "enabled": true,
-        "category": "release"
+        "category": "coding-agent-release"
       },
       {
         "type": "repo_releases",
         "owner": "modelcontextprotocol",
         "repo": "servers",
         "enabled": true,
-        "category": "release"
+        "category": "agent-sdk-release"
       },
       {
         "type": "repo_releases",
-        "owner": "vercel",
-        "repo": "ai",
-        "enabled": false,
-        "category": "release"
-      },
-      {
-        "type": "repo_releases",
-        "owner": "NervJS",
-        "repo": "taro",
+        "owner": "huggingface",
+        "repo": "transformers",
         "enabled": true,
-        "category": "release"
+        "category": "model-tooling-release"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "vllm-project",
+        "repo": "vllm",
+        "enabled": true,
+        "category": "inference-release"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "sgl-project",
+        "repo": "sglang",
+        "enabled": true,
+        "category": "inference-release"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "ggml-org",
+        "repo": "llama.cpp",
+        "enabled": true,
+        "category": "inference-release"
       }
     ],
     "hackernews": {
       "enabled": true,
-      "fetch_top_stories": 20,
-      "min_score": 100,
-      "category": "discussion"
+      "fetch_top_stories": 30,
+      "min_score": 150,
+      "category": "community"
     },
     "rss": [
       {
-        "name": "HN 关键词: MCP",
-        "url": "https://hnrss.org/newest?q=MCP&points=10",
+        "name": "OpenAI News",
+        "url": "https://openai.com/news/rss.xml",
         "enabled": true,
-        "category": "hn-keyword"
+        "category": "official-ai-news"
       },
       {
-        "name": "HN 关键词: Claude Code",
-        "url": "https://hnrss.org/newest?q=%22claude+code%22&points=5",
+        "name": "Google DeepMind",
+        "url": "https://deepmind.google/blog/rss.xml",
         "enabled": true,
-        "category": "hn-keyword"
+        "category": "official-ai-news"
       },
       {
-        "name": "HN 关键词: coding agent",
-        "url": "https://hnrss.org/newest?q=%22coding+agent%22&points=10",
+        "name": "Hugging Face Blog",
+        "url": "https://huggingface.co/blog/feed.xml",
         "enabled": true,
-        "category": "hn-keyword"
+        "category": "official-ai-news"
       },
       {
-        "name": "HN 关键词: Bitcoin",
-        "url": "https://hnrss.org/newest?q=bitcoin&points=150",
+        "name": "GitHub Trending - Python",
+        "url": "https://mshibanami.github.io/GitHubTrendingRSS/daily/python.xml",
         "enabled": true,
-        "category": "hn-keyword"
+        "category": "github-trending"
       },
       {
-        "name": "Show HN",
-        "url": "https://hnrss.org/show?points=50",
+        "name": "GitHub Trending - TypeScript",
+        "url": "https://mshibanami.github.io/GitHubTrendingRSS/daily/typescript.xml",
         "enabled": true,
-        "category": "show-hn"
-      },
-      {
-        "name": "少数派",
-        "url": "https://sspai.com/feed",
-        "enabled": true,
-        "category": "zh-tools"
-      },
-      {
-        "name": "阮一峰周刊",
-        "url": "https://www.ruanyifeng.com/blog/atom.xml",
-        "enabled": true,
-        "category": "zh-tools"
-      },
-      {
-        "name": "Simon Willison",
-        "url": "https://simonwillison.net/atom/everything/",
-        "enabled": true,
-        "category": "blog"
+        "category": "github-trending"
       },
       {
         "name": "Fireship (YouTube)",
@@ -120,42 +137,43 @@
         "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCawZsQWqfGSbCI5yjkdVkTA",
         "enabled": true,
         "category": "video"
+      },
+      {
+        "name": "Simon Willison",
+        "url": "https://simonwillison.net/atom/everything/",
+        "enabled": true,
+        "category": "technical-analysis"
       }
     ],
     "reddit": {
       "enabled": true,
       "subreddits": [
         {
-          "subreddit": "ClaudeAI",
+          "subreddit": "ClaudeCode",
           "enabled": true,
           "sort": "hot",
           "time_filter": "day",
-          "fetch_limit": 15,
-          "min_score": 100
+          "fetch_limit": 10,
+          "min_score": 80,
+          "category": "community-practical"
+        },
+        {
+          "subreddit": "LocalLLaMA",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 100,
+          "category": "community-practical"
         },
         {
           "subreddit": "mcp",
           "enabled": true,
           "sort": "hot",
           "time_filter": "day",
-          "fetch_limit": 10,
-          "min_score": 20
-        },
-        {
-          "subreddit": "ChatGPTCoding",
-          "enabled": true,
-          "sort": "hot",
-          "time_filter": "day",
-          "fetch_limit": 10,
-          "min_score": 50
-        },
-        {
-          "subreddit": "ClaudeCode",
-          "enabled": true,
-          "sort": "hot",
-          "time_filter": "day",
-          "fetch_limit": 15,
-          "min_score": 50
+          "fetch_limit": 8,
+          "min_score": 40,
+          "category": "community-practical"
         }
       ],
       "users": [],
@@ -164,33 +182,43 @@
     "ossinsight": {
       "enabled": true,
       "period": "past_24_hours",
-      "languages": ["All", "Python", "TypeScript"],
-      "keywords": ["mcp", "agent", "claude", "cursor", "copilot", "taro"],
-      "min_stars": 30,
-      "max_items": 20,
+      "languages": ["Python", "TypeScript", "Rust", "C++"],
+      "keywords": ["llm", "agent", "mcp", "inference", "multimodal", "rag", "embedding"],
+      "min_stars": 80,
+      "max_items": 12,
       "category": "oss-trending"
     }
   },
   "filtering": {
-    "ai_score_threshold": 6.0,
+    "ai_score_threshold": 7.0,
     "time_window_hours": 24,
-    "max_items": 20,
+    "max_items": 10,
     "category_groups": {
-      "video": {
-        "limit": 3,
-        "categories": ["video"]
-      },
-      "trending": {
+      "official": {
         "limit": 6,
-        "categories": ["oss-trending"]
+        "categories": [
+          "official-ai-news",
+          "coding-agent-release",
+          "agent-sdk-release",
+          "model-tooling-release",
+          "inference-release"
+        ]
       },
-      "release": {
-        "limit": 4,
-        "categories": ["release"]
+      "open-source-discovery": {
+        "limit": 3,
+        "categories": ["oss-trending", "github-trending"]
+      },
+      "analysis": {
+        "limit": 2,
+        "categories": ["technical-analysis"]
+      },
+      "community": {
+        "limit": 2,
+        "categories": ["community", "community-practical", "video"]
       }
     },
     "default_group": "other",
-    "default_group_limit": null
+    "default_group_limit": 1
   },
   "webhook": {
     "enabled": true,

@@ -18,70 +18,136 @@
   "sources": {
     "github": [
       {
-        "type": "user_events",
-        "username": "karpathy",
-        "enabled": true
+        "type": "repo_releases",
+        "owner": "openai",
+        "repo": "codex",
+        "enabled": true,
+        "category": "coding-agent-release"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "openai",
+        "repo": "openai-agents-python",
+        "enabled": true,
+        "category": "agent-sdk-release"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "openai",
+        "repo": "openai-agents-js",
+        "enabled": true,
+        "category": "agent-sdk-release"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "anthropics",
+        "repo": "claude-code",
+        "enabled": true,
+        "category": "coding-agent-release"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "modelcontextprotocol",
+        "repo": "servers",
+        "enabled": true,
+        "category": "agent-sdk-release"
+      },
+      {
+        "type": "repo_releases",
+        "owner": "huggingface",
+        "repo": "transformers",
+        "enabled": true,
+        "category": "model-tooling-release"
       },
       {
         "type": "repo_releases",
         "owner": "vllm-project",
         "repo": "vllm",
-        "enabled": true
+        "enabled": true,
+        "category": "inference-release"
       },
       {
         "type": "repo_releases",
         "owner": "sgl-project",
         "repo": "sglang",
-        "enabled": true
+        "enabled": true,
+        "category": "inference-release"
       },
       {
         "type": "repo_releases",
-        "owner": "triton-lang",
-        "repo": "triton",
-        "enabled": true
+        "owner": "ggml-org",
+        "repo": "llama.cpp",
+        "enabled": true,
+        "category": "inference-release"
       }
     ],
     "hackernews": {
       "enabled": true,
       "fetch_top_stories": 30,
-      "min_score": 150
+      "min_score": 150,
+      "category": "community"
     },
     "rss": [
       {
-        "name": "Simon Willison",
-        "url": "https://simonwillison.net/atom/everything/",
+        "name": "OpenAI News",
+        "url": "https://openai.com/news/rss.xml",
         "enabled": true,
-        "category": "ai-tools"
+        "category": "official-ai-news"
       },
       {
-        "name": "GitHub Trending - Daily",
-        "url": "https://mshibanami.github.io/GitHubTrendingRSS/daily/all.xml",
+        "name": "Google DeepMind",
+        "url": "https://deepmind.google/blog/rss.xml",
+        "enabled": true,
+        "category": "official-ai-news"
+      },
+      {
+        "name": "Hugging Face Blog",
+        "url": "https://huggingface.co/blog/feed.xml",
+        "enabled": true,
+        "category": "official-ai-news"
+      },
+      {
+        "name": "GitHub Trending - Python",
+        "url": "https://mshibanami.github.io/GitHubTrendingRSS/daily/python.xml",
         "enabled": true,
         "category": "github-trending"
       },
       {
-        "name": "Semianalysis",
-        "url": "https://newsletter.semianalysis.com/feed",
+        "name": "GitHub Trending - TypeScript",
+        "url": "https://mshibanami.github.io/GitHubTrendingRSS/daily/typescript.xml",
         "enabled": true,
-        "category": "semiconductors"
+        "category": "github-trending"
       },
       {
-        "name": "LWN.net",
-        "url": "https://lwn.net/headlines/full_text?key=${LWN_KEY}",
+        "name": "Fireship (YouTube)",
+        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCsBjURrPoezykLs9EqgamOA",
         "enabled": true,
-        "category": "linux-kernel"
+        "category": "video"
+      },
+      {
+        "name": "Matthew Berman (YouTube)",
+        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCawZsQWqfGSbCI5yjkdVkTA",
+        "enabled": true,
+        "category": "video"
+      },
+      {
+        "name": "Simon Willison",
+        "url": "https://simonwillison.net/atom/everything/",
+        "enabled": true,
+        "category": "technical-analysis"
       }
     ],
     "reddit": {
       "enabled": true,
       "subreddits": [
         {
-          "subreddit": "MachineLearning",
+          "subreddit": "ClaudeCode",
           "enabled": true,
           "sort": "hot",
           "time_filter": "day",
           "fetch_limit": 10,
-          "min_score": 60
+          "min_score": 80,
+          "category": "community-practical"
         },
         {
           "subreddit": "LocalLLaMA",
@@ -89,26 +155,88 @@
           "sort": "hot",
           "time_filter": "day",
           "fetch_limit": 10,
-          "min_score": 60
+          "min_score": 100,
+          "category": "community-practical"
+        },
+        {
+          "subreddit": "mcp",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 8,
+          "min_score": 40,
+          "category": "community-practical"
         }
       ],
       "users": [],
-      "fetch_comments": 10
+      "fetch_comments": 5
     },
     "telegram": {
+      "enabled": false,
+      "channels": []
+    },
+    "ossinsight": {
       "enabled": true,
-      "channels": [
-        {
-          "channel": "zaihuapd",
-          "enabled": true,
-          "fetch_limit": 20
-        }
-      ]
+      "period": "past_24_hours",
+      "languages": [
+        "Python",
+        "TypeScript",
+        "Rust",
+        "C++"
+      ],
+      "keywords": [
+        "llm",
+        "agent",
+        "mcp",
+        "inference",
+        "multimodal",
+        "rag",
+        "embedding"
+      ],
+      "min_stars": 80,
+      "max_items": 12,
+      "category": "oss-trending"
     }
   },
   "filtering": {
-    "ai_score_threshold": 8.0,
-    "time_window_hours": 24
+    "ai_score_threshold": 7.0,
+    "time_window_hours": 24,
+    "max_items": 10,
+    "category_groups": {
+      "official": {
+        "limit": 6,
+        "categories": [
+          "official-ai-news",
+          "coding-agent-release",
+          "agent-sdk-release",
+          "model-tooling-release",
+          "inference-release"
+        ]
+      },
+      "open-source-discovery": {
+        "limit": 3,
+        "categories": [
+          "oss-trending",
+          "github-trending"
+        ]
+      },
+      "analysis": {
+        "limit": 2,
+        "categories": [
+          "technical-analysis"
+        ]
+      },
+      "community": {
+        "limit": 2,
+        "categories": [
+          "community",
+          "community-practical",
+          "video"
+        ]
+      }
+    },
+    "default_group": "other",
+    "default_group_limit": 1
   },
   "webhook": {
     "enabled": true,

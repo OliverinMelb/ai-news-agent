@@ -60,75 +60,69 @@ Consider:
 
 **USER RELEVANCE PROFILE — this OVERRIDES the general rubric above.**
 
-The reader is a full-stack developer (TypeScript/React, mini-program framework Taro,
-Python) who uses Claude Code daily with a multi-agent workflow (subagents, git
-worktrees, task orchestration, hooks/skills). Two motivations drive their reading:
+The reader is a working full-stack developer who wants a compact daily radar for
+the latest AI technology and high-signal GitHub projects. They care about changes
+that affect what they can build, run, evaluate, or adopt—not general AI chatter.
 
-1. Staying current as an AI-native developer — they do not want to fall behind on
-   the latest AI development techniques and tricks (MCP, Claude Code skills/plugins,
-   agent orchestration, prompt/context engineering for coding agents).
-2. Side-project ideas they are actively exploring — AI astrology / fortune-telling
-   apps, AI interview-prep / interview-coaching tools, and Bitcoin/crypto.
+THE SCORING QUESTION: "Does this contain a new, technically substantiated change
+that an AI developer should inspect now?" Score high only when the answer is
+clearly yes. Popularity, a familiar keyword, or an entertaining story is not
+evidence of technical value.
 
-THE SCORING QUESTION: "Would this reader actually click and read this item?"
-Score high only if the answer is clearly yes — because it teaches a technique they
-can use this week, changes a tool they rely on, or is directly actionable for one
-of their side projects. Content NOT matching the profile scores AT MOST 4, no
-matter how important, viral, or technically impressive it is in general.
+SOURCE QUALITY MATTERS:
+- Prefer primary sources: official release notes, maintainers' engineering posts,
+  research papers, repositories, documentation, and reproducible benchmarks.
+- A secondary article can score highly only when it adds meaningful independent
+  technical analysis and links to evidence.
+- Reddit, Hacker News, social posts, and videos are discovery signals, not proof.
+  Personal stories, opinions, complaints, pricing/usage-limit discussions, memes,
+  and "I built X" showcases without code or concrete implementation details score
+  AT MOST 4, regardless of engagement.
 
-HANDS-ON BEATS NEWS: given equal relevance, an item showing "I used tool X and
-got result Y" (a plugin demo, a workflow write-up with steps, a before/after,
-a Show HN with something to try) outranks industry news ABOUT the same topic.
-The reader would rather learn one trick they can reproduce tonight than read
-three analyses of market trends. Concrete + reproducible + immediate payoff
-→ push toward 8-9; abstract/analytical/observational → cap around 6-7.
-
-HIGH relevance (score 7-10 when genuinely new and useful):
-- New or notable MCP servers, especially ones useful for frontend/backend dev work
-  (databases, browsers, testing, design-to-code, deployment, API integration)
-- Claude Code features/releases and ecosystem: skills, plugins, hooks, subagents,
-  worktree-based parallel workflows, CLAUDE.md practices, headless/CI usage
-- Multi-agent orchestration: task decomposition, agent teams, sandboxing, evals,
-  agent memory; practical write-ups of real coding-agent workflows
-- Cursor/Copilot/Codex and other coding-agent tooling when transferable to Claude Code
-- AI-assisted frontend/backend development: UI generation, design-to-code,
-  API scaffolding, test generation; Taro / WeChat mini-program + AI anything
-- Concrete benchmarks/comparisons of coding agents, models for coding, or MCP tooling
-- Side-project signals: AI + astrology/horoscope/tarot/fortune-telling products,
-  AI interview prep / mock-interview / interview-coaching tools, indie AI product
-  case studies (how someone built or monetized a small AI product)
-- "I built X with a coding agent" showcases and post-mortems, EVEN when the
-  product's domain is unrelated to the reader — the transferable value is the
-  workflow, tooling, and lessons. Judge these by workflow insight, not by
-  whether the product itself matches the reader's projects.
-- Bitcoin/crypto: major market-moving events, new dev tooling/APIs (exchange APIs,
-  on-chain data, payments), buildable product opportunities
+HIGH relevance (score 7-10 when genuinely new and technically meaningful):
+- Major foundation-model or multimodal-model releases with documented capability,
+  API, inference, context, tool-use, or evaluation changes
+- Coding agents and developer tools: Codex, Claude Code, Copilot, Cursor, agent
+  SDKs, MCP, skills/plugins, hooks, sandboxes, evals, memory, and orchestration
+- Important releases in inference and model tooling: Transformers, vLLM, SGLang,
+  llama.cpp, runtimes, serving, quantization, fine-tuning, and observability
+- Strong new open-source AI projects with an inspectable repository, clear use
+  case, substantive implementation, and credible adoption/maintainer signals
+- Community-discovered workflows, plugins, skills, or MCP tools when the post
+  includes a real repository, concrete setup steps, examples, or reproducible
+  results that the reader can try directly
+- Reproducible research or engineering techniques that materially improve model
+  quality, latency, cost, reliability, safety, or developer productivity
+- Security issues or breaking changes that require developer action
 
 MEDIUM relevance (score 5-6 cap unless exceptional):
-- General LLM/model releases (only when they change coding-tool choices)
-- General web framework releases (React/Next/Vite/Node/Python tooling)
+- Useful tutorials or workflow write-ups with concrete code and reproducible steps
+- Minor but practical framework/tool improvements
+- Rigorous third-party comparisons that disclose methodology and artifacts
 
 Score calibration:
-- Spread your scores. Reserve 9-10 for items the reader would drop everything to
-  read; on a typical day at most 1-2 items deserve >=9.
-- A keyword match alone ("Claude Code", "MCP", "agent", "Bitcoin") does NOT make
-  an item high-relevance — judge whether it changes how the reader builds things
-  or feeds a side project.
-- Fun demos / novelty applications (games written in SQL, art projects, stunts)
-  cap at 6 even when technically impressive.
+- 9-10: rare field-changing release or urgent developer-impacting change
+- 8: major new capability from a credible project, with concrete technical detail
+- 7: clearly useful and new, worth opening today
+- 5-6: useful but incremental, narrow, or not time-sensitive
+- 0-4: chatter, anecdotes, routine maintenance, marketing, or weak evidence
+- Reserve 9-10 for at most 1-2 items on a typical day.
+- A keyword match ("AI", "agent", "MCP", "Claude", "Codex") alone scores nothing.
+- Do not inflate a score because comments are numerous or enthusiastic.
 
-Release notes rule: routine SDK/library releases (patch/minor versions, bugfixes,
-small feature flags, new model IDs, tracing tweaks) score 0-4 — they are changelog
-noise, not news. A release only scores ≥6 if it introduces a genuinely new
-capability or breaking change that would alter how the reader builds things
-(e.g. a major version, a new agent primitive, a security fix requiring action).
+Release notes rule: routine patch/minor releases, dependency bumps, bugfix bundles,
+small feature flags, new model IDs, and tracing tweaks score 0-4. A release scores
+7+ only if its notes show a genuinely new capability, important breaking change,
+major performance improvement with evidence, or security fix requiring action.
 
-ZERO relevance (score 0-4 ALWAYS):
-- Funding, valuations, executive moves, AI policy/regulation, AGI speculation
-  (exception: crypto events fitting the Bitcoin/crypto bullet above)
-- Routine crypto price commentary, shill/promotional coin content
-- Consumer/entertainment tech, retro hardware, games, science, legal news
-- Marketing content without reproducible technical substance
+LOW relevance (score 0-4 ALWAYS):
+- Funding, valuations, executive moves, policy, lawsuits, and AGI speculation
+- Product rumors, unsourced claims, benchmark screenshots without methodology
+- Pricing complaints, quota resets, subscription changes, and support incidents
+- Career stories, productivity feelings, generic trend pieces, and AI lifestyle
+- Crypto/finance commentary, consumer gadgets, entertainment, games, and memes
+- Promotional listicles, SEO content, affiliate content, and launch copy without
+  technical documentation or an inspectable implementation
 """
 
 CONTENT_ANALYSIS_USER = """Analyze the following content and provide a JSON response with:

@@ -351,6 +351,8 @@ def _gh_key(src: GitHubSourceConfig) -> str:
     """Generate unique key for a GitHub source."""
     if src.type == "user_events":
         return f"user:{src.username}"
+    if src.type == "repo_search":
+        return f"search:{src.query}"
     return f"repo:{src.owner}/{src.repo}"
 
 

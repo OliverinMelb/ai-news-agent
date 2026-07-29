@@ -215,11 +215,30 @@ All sources are configured under the top-level `sources` key in `config.json`.
         "repo": "cpython",
         "enabled": true,
         "category": "oss"
+      },
+      {
+        "type": "repo_search",
+        "query": "skills in:name,description",
+        "sort": "stars",
+        "order": "desc",
+        "fetch_limit": 20,
+        "min_stars": 100,
+        "lookback_days": 7,
+        "enabled": true,
+        "category": "skills-hotspot"
       }
     ]
   }
 }
 ```
+
+`repo_search` uses GitHub's repository search API to discover active projects
+outside the fixed user and release watchlists. Horizon automatically adds
+`archived:false`, a recent `pushed:` qualifier, and the configured
+`stars:>=` minimum. `lookback_days` overrides the global fetch window for this
+source so a fast-rising project can remain discoverable for several days; omit
+it to use `filtering.time_window_hours`. Overlapping search entries are
+deduplicated by repository name.
 
 ### Hacker News
 

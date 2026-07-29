@@ -87,6 +87,28 @@
         "repo": "llama.cpp",
         "enabled": true,
         "category": "inference-release"
+      },
+      {
+        "type": "repo_search",
+        "query": "skills in:name,description",
+        "sort": "stars",
+        "order": "desc",
+        "fetch_limit": 25,
+        "min_stars": 500,
+        "lookback_days": 14,
+        "enabled": true,
+        "category": "skills-hotspot"
+      },
+      {
+        "type": "repo_search",
+        "query": "topic:agent-skills",
+        "sort": "stars",
+        "order": "desc",
+        "fetch_limit": 20,
+        "min_stars": 50,
+        "lookback_days": 14,
+        "enabled": true,
+        "category": "skills-hotspot"
       }
     ],
     "hackernews": {
@@ -153,8 +175,8 @@
           "enabled": true,
           "sort": "hot",
           "time_filter": "day",
-          "fetch_limit": 10,
-          "min_score": 80,
+          "fetch_limit": 20,
+          "min_score": 10,
           "category": "community-practical"
         },
         {
@@ -163,7 +185,7 @@
           "sort": "hot",
           "time_filter": "day",
           "fetch_limit": 10,
-          "min_score": 100,
+          "min_score": 30,
           "category": "community-practical"
         },
         {
@@ -172,7 +194,25 @@
           "sort": "hot",
           "time_filter": "day",
           "fetch_limit": 8,
-          "min_score": 40,
+          "min_score": 10,
+          "category": "community-practical"
+        },
+        {
+          "subreddit": "AI_Agents",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 12,
+          "min_score": 10,
+          "category": "community-practical"
+        },
+        {
+          "subreddit": "claudeskills",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 12,
+          "min_score": 5,
           "category": "community-practical"
         }
       ],
@@ -182,20 +222,28 @@
     "ossinsight": {
       "enabled": true,
       "period": "past_24_hours",
-      "languages": ["Python", "TypeScript", "Rust", "C++"],
-      "keywords": ["llm", "agent", "mcp", "inference", "multimodal", "rag", "embedding"],
-      "min_stars": 80,
-      "max_items": 12,
+      "languages": ["All", "Python", "TypeScript", "Rust", "C++"],
+      "keywords": ["llm", "agent", "mcp", "skill", "claude", "codex", "cursor", "inference", "multimodal", "rag", "embedding"],
+      "min_stars": 20,
+      "max_items": 20,
       "category": "oss-trending"
+    },
+    "google_news": {
+      "enabled": true,
+      "query": "(\"agent skills\" OR \"Claude Code skills\" OR \"Codex skills\" OR \"mattpocock skills\")",
+      "language": "en",
+      "country": "US",
+      "max_results": 30,
+      "category": "community-practical"
     }
   },
   "filtering": {
     "ai_score_threshold": 7.0,
     "time_window_hours": 24,
-    "max_items": 10,
+    "max_items": 14,
     "category_groups": {
       "official": {
-        "limit": 6,
+        "limit": 5,
         "categories": [
           "official-ai-news",
           "coding-agent-release",
@@ -205,15 +253,15 @@
         ]
       },
       "open-source-discovery": {
-        "limit": 3,
-        "categories": ["oss-trending", "github-trending"]
+        "limit": 4,
+        "categories": ["oss-trending", "github-trending", "skills-hotspot"]
       },
       "analysis": {
         "limit": 2,
         "categories": ["technical-analysis"]
       },
       "community": {
-        "limit": 2,
+        "limit": 4,
         "categories": ["community", "community-practical", "video"]
       }
     },

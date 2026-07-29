@@ -2,7 +2,7 @@
 
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from typing import List, Optional
 import httpx
 
@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class GitHubScraper(BaseScraper):
-    """Scraper for GitHub events and releases."""
+    """Scraper for GitHub events, releases, and repository discovery."""
 
     def __init__(self, sources: List[GitHubSourceConfig], http_client: httpx.AsyncClient):
         """Initialize GitHub scraper.
@@ -50,6 +50,7 @@ class GitHubScraper(BaseScraper):
             List[ContentItem]: Fetched content items
         """
         items = []
+        seen_search_repositories: set[str] = set()
         sources = self.config["sources"]
 
         for source in sources:
@@ -62,8 +63,127 @@ class GitHubScraper(BaseScraper):
             elif source.type == "repo_releases" and source.owner and source.repo:
                 release_items = await self._fetch_repo_releases(source, since)
                 items.extend(release_items)
+            elif source.type == "repo_search" and source.query:
+                search_items = await self._fetch_repository_search(source, since)
+                for item in search_items:
+                    repo_name = str(item.metadata.get("repo", "")).lower()
+                    if repo_name and repo_name in seen_search_repositories:
+                        continue
+                    if repo_name:
+                        seen_search_repositories.add(repo_name)
+                    items.append(item)
 
         return items
+
+    async def _fetch_repository_search(
+        self,
+        source: GitHubSourceConfig,
+        since: datetime,
+    ) -> List[ContentItem]:
+        """Find popular repositories matching a configurable GitHub query."""
+        cutoff = since
+        if cutoff.tzinfo is None:
+            cutoff = cutoff.replace(tzinfo=timezone.utc)
+        else:
+            cutoff = cutoff.astimezone(timezone.utc)
+
+        if source.lookback_days is not None:
+            cutoff = datetime.now(timezone.utc) - timedelta(days=source.lookback_days)
+
+        query_parts = [
+            source.query.strip(),
+            f"pushed:>={cutoff:%Y-%m-%d}",
+            "archived:false",
+        ]
+        if source.min_stars:
+            query_parts.append(f"stars:>={source.min_stars}")
+
+        params = {
+            "q": " ".join(query_parts),
+            "sort": source.sort,
+            "order": source.order,
+            "per_page": source.fetch_limit,
+        }
+
+        try:
+            response = await self.client.get(
+                f"{self.base_url}/search/repositories",
+                params=params,
+                headers=self._get_headers(),
+                follow_redirects=True,
+            )
+            response.raise_for_status()
+            repositories = response.json().get("items", [])
+        except httpx.HTTPError as e:
+            logger.warning("Error searching GitHub repositories for %r: %s", source.query, e)
+            return []
+
+        items: List[ContentItem] = []
+        for repository in repositories:
+            item = self._parse_repository(repository, source)
+            if item is None or item.published_at < cutoff:
+                continue
+            items.append(item)
+        return items
+
+    def _parse_repository(
+        self,
+        repository: dict,
+        source: GitHubSourceConfig,
+    ) -> Optional[ContentItem]:
+        """Convert a GitHub repository search result into a content item."""
+        repo_id = repository.get("id")
+        full_name = repository.get("full_name")
+        html_url = repository.get("html_url")
+        pushed_at_raw = repository.get("pushed_at")
+        if not repo_id or not full_name or not html_url or not pushed_at_raw:
+            return None
+
+        try:
+            pushed_at = datetime.fromisoformat(pushed_at_raw.replace("Z", "+00:00"))
+        except (TypeError, ValueError):
+            return None
+
+        stars = int(repository.get("stargazers_count") or 0)
+        forks = int(repository.get("forks_count") or 0)
+        open_issues = int(repository.get("open_issues_count") or 0)
+        topics = [str(topic) for topic in repository.get("topics") or []]
+        language = repository.get("language")
+        description = (repository.get("description") or "").strip()
+
+        content_lines = [
+            f"Popular GitHub repository: {full_name}",
+            f"Stars: {stars}",
+            f"Forks: {forks}",
+            f"Open issues: {open_issues}",
+            f"Primary language: {language or 'Unknown'}",
+            f"Recently pushed: {pushed_at.isoformat()}",
+        ]
+        if topics:
+            content_lines.append(f"Topics: {', '.join(topics)}")
+        if description:
+            content_lines.extend(["", description])
+
+        owner = repository.get("owner") or {}
+        return ContentItem(
+            id=self._generate_id("github", "repository-search", str(repo_id)),
+            source_type=SourceType.GITHUB,
+            title=f"{full_name} ({stars:,}★)",
+            url=html_url,
+            content="\n".join(content_lines),
+            author=owner.get("login") or full_name.split("/", 1)[0],
+            published_at=pushed_at,
+            metadata={
+                "repo": full_name,
+                "stars": stars,
+                "forks": forks,
+                "open_issues": open_issues,
+                "language": language,
+                "topics": topics,
+                "search_query": source.query,
+                "category": source.category,
+            },
+        )
 
     async def _fetch_user_events(
         self,

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from src.models import AIConfig, AIProvider, Config
+from src.models import AIConfig, AIProvider, Config, GitHubSourceConfig
 from src.setup import wizard
 
 
@@ -68,6 +68,15 @@ def test_build_config_hackernews_follows_selection_and_count():
     assert wizard._count_sources(rss_config) == 1
     assert default_config.sources.hackernews.enabled is True
     assert wizard._count_sources(default_config) == 1
+
+
+def test_github_search_sources_have_distinct_merge_keys():
+    skills = GitHubSourceConfig(type="repo_search", query="skills in:name")
+    agent_skills = GitHubSourceConfig(type="repo_search", query="topic:agent-skills")
+
+    assert wizard._gh_key(skills) == "search:skills in:name"
+    assert wizard._gh_key(agent_skills) == "search:topic:agent-skills"
+    assert wizard._gh_key(skills) != wizard._gh_key(agent_skills)
 
 
 def test_merge_configs_preserves_all_existing_configuration_and_deduplicates_lists():

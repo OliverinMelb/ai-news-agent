@@ -162,10 +162,16 @@ class AIConfig(BaseModel):
 class GitHubSourceConfig(BaseModel):
     """GitHub source configuration."""
 
-    type: str  # "user_events", "repo_releases", etc.
+    type: Literal["user_events", "repo_releases", "repo_search"]
     username: Optional[str] = None
     owner: Optional[str] = None
     repo: Optional[str] = None
+    query: Optional[str] = None
+    sort: Literal["stars", "forks", "help-wanted-issues", "updated"] = "stars"
+    order: Literal["asc", "desc"] = "desc"
+    fetch_limit: int = Field(default=20, ge=1, le=100)
+    min_stars: int = Field(default=0, ge=0)
+    lookback_days: Optional[int] = Field(default=None, ge=1, le=365)
     enabled: bool = True
     category: Optional[str] = None
 
